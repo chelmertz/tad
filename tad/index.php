@@ -2,7 +2,7 @@
 
 // config
 
-define('PASTE_FOLDER', 'paste');
+define('PASTE_FOLDER', __DIR__);
 define('LIST_AMOUNT', 20);
 error_reporting(E_ALL|E_STRICT);
 
@@ -34,19 +34,23 @@ function create_paste($body) {
 		$id = substr(md5(uniqid()), 0, 5);
 		$filename = PASTE_FOLDER.'/'.$id;
 	} while(file_exists($filename));
-	file_put_contents($filename, $body);
+	if(!file_put_contents($filename, $body)) {
+		return false;
+	}
 	return $id;
 }
 
 function redirect_to_paste($id) {
-	$permalink = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']."?id=$id";
+	$id = $id ? "/$id" : null;
+	$protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
+	$permalink = $protocol.$_SERVER['HTTP_HOST'].rtrim($_SERVER['REQUEST_URI'], '/').$id;
 	header("Location: ".$permalink);
 	echo $permalink;
 	exit(0);
 }
 
 function get_last($count = LIST_AMOUNT) {
-	exec("ls -tr ".PASTE_FOLDER." | head -n ".((int)$count), $output, $exit_code);
+	exec("ls -t ".PASTE_FOLDER." | grep -v index.php | head -n ".((int)$count), $output, $exit_code);
 	return $output;
 }
 
@@ -63,7 +67,7 @@ function render_index() {
 	if(!$last) {
 		$last = "<h2>Nothing dumped yet</h2>";
 	} else {
-		$last = "<h2>Recently dumped</h2><ul><li>".implode("</li><li>", array_map(function($id) { return "<a href='?id=$id'>$id</a>"; }, $last))."</li></ul>";
+		$last = "<h2>Recently dumped</h2><ul><li>".implode("</li><li>", array_map(function($id) { return "<a href='./$id'>$id</a>"; }, $last))."</li></ul>";
 	}
 	$self = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 	echo <<<POLICE
