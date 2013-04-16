@@ -129,7 +129,7 @@ dd {
 				<dd><var>curl $self -d "This is my paste"</var></dd>
 
 				<dt>Dump from STDIN</dt>
-				<dd><var>curl $self -d @-</var></dd>
+				<dd><var>ls /tmp | curl $self -d @-</var></dd>
 
 				<dt>Be efficient</dt>
 				<dd><var>curl $self -d "This is my paste" | xargs xdg-open</var></dd>
