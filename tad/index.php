@@ -6,6 +6,13 @@ define('PASTE_FOLDER', __DIR__);
 define('LIST_AMOUNT', 20);
 error_reporting(E_ALL|E_STRICT);
 
+// helper
+
+function permalink($id = null) {
+	$protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
+	return $protocol.$_SERVER['HTTP_HOST'].rtrim($_SERVER['REQUEST_URI'], '/')."/$id";
+}
+
 // model logic
 
 function check_prereq() {
@@ -41,9 +48,7 @@ function create_paste($body) {
 }
 
 function redirect_to_paste($id) {
-	$id = $id ? "/$id" : null;
-	$protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
-	$permalink = $protocol.$_SERVER['HTTP_HOST'].rtrim($_SERVER['REQUEST_URI'], '/').$id;
+	$permalink = permalink($id);
 	header("Location: ".$permalink);
 	echo $permalink;
 	exit(0);
@@ -69,7 +74,7 @@ function render_index() {
 	} else {
 		$last = "<h2>Recently dumped</h2><ul><li>".implode("</li><li>", array_map(function($id) { return "<a href='./$id'>$id</a>"; }, $last))."</li></ul>";
 	}
-	$self = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+	$self = permalink();
 	echo <<<POLICE
 <!doctype>
 <html>
