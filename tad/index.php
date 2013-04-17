@@ -6,11 +6,13 @@ define('PASTE_FOLDER', __DIR__);
 define('LIST_AMOUNT', 20);
 error_reporting(E_ALL|E_STRICT);
 
-// helper
+// helpers
 
 function permalink($id = null) {
 	$protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
-	return $protocol.$_SERVER['HTTP_HOST'].rtrim($_SERVER['REQUEST_URI'], '/')."/$id";
+	$uri = $protocol.$_SERVER['HTTP_HOST'].rtrim($_SERVER['REQUEST_URI'], '/');
+	$uri = preg_replace('~/index.php$~', null, $uri);
+	return "$uri/$id";
 }
 
 // model logic
