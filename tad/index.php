@@ -95,12 +95,6 @@ function list_pastes($count = LIST_AMOUNT) {
 
 // view logic
 
-function render_paste($id) {
-	header("Content-type: text-plain");
-	echo file_get_contents(PASTE_FOLDER.'/'.$id);
-	exit(0);
-}
-
 function render_index() {
 	$pastes = list_pastes();
 	if(!$pastes) {
@@ -215,7 +209,4 @@ if($req = check_prereq()) {
 }
 
 handle_post();
-if(isset($_GET['id']) && preg_match('~[a-z0-9]+~i', $_GET['id']) && file_exists(PASTE_FOLDER.'/'.$_GET['id'])) {
-	render_paste($_GET['id']);
-}
 render_index();
