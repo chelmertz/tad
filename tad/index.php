@@ -42,11 +42,9 @@ function handle_post() {
 }
 
 function create_paste($body) {
-	do {
-		$id = substr(md5(uniqid()), 0, 5);
-		$filename = PASTE_FOLDER.'/'.$id;
-	} while(file_exists($filename));
-	if(!file_put_contents($filename, $body)) {
+	$id = substr(md5($body), 0, 7);
+	$filename = PASTE_FOLDER.'/'.$id;
+	if(!file_exists($filename) && !file_put_contents($filename, $body)) {
 		return false;
 	}
 	return $id;
