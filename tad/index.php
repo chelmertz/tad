@@ -132,13 +132,21 @@ dd {
 				<dt>Dump from CLI</dt>
 				<dd><var>curl $self -d @&lt;filename&gt;</var></dd>
 				<dd><var>curl $self -d "This is my paste"</var></dd>
+				<dd><var>curl $self --data-binary @&lt;filename&gt;</var></dd>
+				<dd><var>curl $self --data-binary "This is my paste"</var></dd>
 
 				<dt>Dump from STDIN</dt>
 				<dd><var>ls /tmp | curl $self -d @-</var></dd>
+				<dd><var>ls /tmp | curl $self --data-binary @-</var></dd>
 
 				<dt>Be efficient</dt>
 				<dd><var>curl $self -d "This is my paste" | xargs xdg-open</var></dd>
 				<dd><var>curl $self -d "This is my paste" | xclip</var></dd>
+				<dd><var>curl $self --data-binary "This is my paste" | xargs xdg-open</var></dd>
+				<dd><var>curl $self --data-binary "This is my paste" | xclip</var></dd>
+
+				<dt>From within vim</dt>
+				<dd><var>:w !curl $self --data-binary @-</var></dd>
 			</dl>
 		</div>
 		<div style="clear: both"></div>
@@ -147,6 +155,13 @@ dd {
 		<textarea id="dumper" cols="20" rows="10" name="body"></textarea>
 		<p><input type="submit" name="" value="Dump" /></p>
 	</form>
+	<h2>Further hacks</h2>
+	<h3>vimconfig to send buffer to paste</h3>
+	<pre><code>cnoremap tad call Tad()<CR>
+function! Tad(...)
+        w !curl $self --data-binary @-
+endfunction</code></pre>
+	<p>Call it with <var>:tad</var> from within vim.</p>
 </body>
 </html>
 POLICE;
