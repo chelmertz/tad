@@ -1,5 +1,7 @@
 <?php
 
+// LICENSE: Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+
 // config
 
 define('PASTE_FOLDER', __DIR__);
@@ -93,6 +95,11 @@ body {
 	width: 100%;
 }
 
+#footer {
+	font-size: smaller;
+	text-align: center;
+}
+
 .col {
 	float: left;
 	width: 40%;
@@ -155,6 +162,9 @@ function! Tad(...)
         w !curl $self --data-binary @-
 endfunction</code></pre>
 	<p>Call it with <var>:tad</var> from within vim.</p>
+	<div id="footer">
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB"><img alt="Creative Commons Licence" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
+	</div>
 </body>
 </html>
 POLICE;
