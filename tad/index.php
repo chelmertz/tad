@@ -130,18 +130,13 @@ dd {
 			<h2>Help</h2>
 			<dl>
 				<dt>Dump from CLI</dt>
-				<dd><var>curl $self -d @&lt;filename&gt;</var></dd>
-				<dd><var>curl $self -d "This is my paste"</var></dd>
 				<dd><var>curl $self --data-binary @&lt;filename&gt;</var></dd>
 				<dd><var>curl $self --data-binary "This is my paste"</var></dd>
 
 				<dt>Dump from STDIN</dt>
-				<dd><var>ls /tmp | curl $self -d @-</var></dd>
 				<dd><var>ls /tmp | curl $self --data-binary @-</var></dd>
 
 				<dt>Be efficient</dt>
-				<dd><var>curl $self -d "This is my paste" | xargs xdg-open</var></dd>
-				<dd><var>curl $self -d "This is my paste" | xclip</var></dd>
 				<dd><var>curl $self --data-binary "This is my paste" | xargs xdg-open</var></dd>
 				<dd><var>curl $self --data-binary "This is my paste" | xclip</var></dd>
 
