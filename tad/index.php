@@ -23,6 +23,9 @@ function check_prereq() {
 	if(!is_executable($path)) {
 		return "$path must be executable";
 	}
+	if(!is_dir($path)) {
+		return "$path must be a directory";
+	}
 	return null;
 }
 
