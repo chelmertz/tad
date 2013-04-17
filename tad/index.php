@@ -55,13 +55,17 @@ function check_prereq() {
 }
 
 function handle_post() {
+	if(isset($_SERVER) && $_SERVER['REQUEST_METHOD'] != "POST") {
+		return;
+	}
 	$body = file_get_contents('php://input');
-	if(!empty($_POST['body'])) {
+	if(isset($_POST['body'])) {
 		$body = $_POST['body'];
 	}
 	if($body) {
-		redirect_to_paste(create_paste($body));
+		return redirect(create_paste($body));
 	}
+	return redirect();
 }
 
 function create_paste($body) {
@@ -73,7 +77,7 @@ function create_paste($body) {
 	return $id;
 }
 
-function redirect_to_paste($id) {
+function redirect($id) {
 	$permalink = permalink($id);
 	header("Location: ".$permalink);
 	echo $permalink;
