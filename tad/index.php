@@ -17,6 +17,27 @@ function permalink($id = null) {
 	return "$uri/$id";
 }
 
+function time_ago($timestamp) {
+	$time = time() - $timestamp;
+
+	$tokens = array (
+		31536000 => 'year',
+		2592000 => 'month',
+		604800 => 'week',
+		86400 => 'day',
+		3600 => 'hour',
+		60 => 'minute',
+		1 => 'second'
+	);
+
+	foreach ($tokens as $unit => $text) {
+		if ($time < $unit) continue;
+		$units = floor($time / $unit);
+		return $units.' '.$text.(($units>1)?'s':'').' ago';
+	}
+	return $time_ago.' ago';
+}
+
 // model logic
 
 function check_prereq() {
@@ -59,8 +80,12 @@ function redirect_to_paste($id) {
 	exit(0);
 }
 
-function get_last($count = LIST_AMOUNT) {
-	exec("ls -t ".PASTE_FOLDER." | grep -v index.php | head -n ".((int)$count), $output, $exit_code);
+function list_pastes($count = LIST_AMOUNT) {
+	exec("ls -t ".PASTE_FOLDER." | grep -v index.php | head -n ".((int)$count), $files, $exit_code);
+	$output = array();
+	foreach($files as $file) {
+		$output[$file] = filemtime(PASTE_FOLDER."/$file");
+	}
 	return $output;
 }
 
@@ -73,11 +98,19 @@ function render_paste($id) {
 }
 
 function render_index() {
-	$last = get_last();
-	if(!$last) {
+	$pastes = list_pastes();
+	if(!$pastes) {
 		$last = "<h2>Nothing dumped yet</h2>";
 	} else {
-		$last = "<h2>Recently dumped</h2><ul><li>".implode("</li><li>", array_map(function($id) { return "<a href='./$id'>$id</a>"; }, $last))."</li></ul>";
+		$last = "<h2>Recently dumped</h2><ul>";
+		foreach($pastes as $file => $time) {
+			$last .= sprintf(
+				'<li><a href="./%1$s">%1$s</a> %2$s</li>',
+				$file,
+				time_ago($time)
+			);
+		}
+		$last .= "</ul>";
 	}
 	$self = permalink();
 	echo <<<POLICE
