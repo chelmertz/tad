@@ -68,6 +68,26 @@ function handle_post() {
 	return redirect();
 }
 
+function get_search_results() {
+	if(isset($_GET['search']) && $s = $_GET['search']) {
+		exec("grep -c ".escapeshellarg($s)." ".PASTE_FOLDER."/* | grep -v index.php | egrep -v ':0$' | sort -nr -k2 -t:", $hits, $exit_code);
+		// search all files but index.php in PASTE_FOLDER
+		// exclude files not matching
+		// sort by most hits descending
+		$result = array();
+		foreach($hits as $hit) {
+			preg_match('~/(?P<hash>[a-z0-9]+):(?P<count>\d+)~', $hit, $parts);
+			$result[] = "<li><a href='".permalink($parts['hash'])."'>".$parts['hash']."</a> (".$parts['count']." hits)</li>";
+		}
+		if(!$result) {
+			return "<h3>No results found for <em>".htmlentities($s, ENT_QUOTES, 'UTF-8')."</em>";
+		}
+		$amount = count($result);
+		return  "<h3>".$amount." result".($amount > 1 ? 's' : null)." found for <em>".htmlentities($s, ENT_QUOTES, 'UTF-8')."</em></h3><ol>".implode("\n", $result)."</ol>";
+	}
+	return null;
+}
+
 function create_paste($body) {
 	$id = substr(md5($body), 0, 7);
 	$filename = PASTE_FOLDER.'/'.$id;
@@ -95,7 +115,7 @@ function list_pastes($count = LIST_AMOUNT) {
 
 // view logic
 
-function render_index() {
+function render_index($search_result = array()) {
 	$pastes = list_pastes();
 	if(!$pastes) {
 		$last = "<h2>Nothing dumped yet</h2>";
@@ -106,6 +126,15 @@ function render_index() {
 		}
 		$last .= "</ul>";
 	}
+	$second_col = "<div class='col'>
+		<form action='' method='get'>
+			<label>Search: <input name='search' /></label>
+			<input type='submit' name='' value='Submit' />
+		</form>";
+	if($search_result) {
+		$second_col .= $search_result;
+	}
+	$second_col ."</div>";
 	$self = permalink();
 	echo <<<POLICE
 <!doctype>
@@ -158,31 +187,29 @@ dd {
 		<div class="col">
 		$last
 		</div>
-		<div class="col">
-			<h2>Help</h2>
-			<dl>
-				<dt>Dump from CLI</dt>
-				<dd><var>curl $self --data-binary @&lt;filename&gt;</var></dd>
-				<dd><var>curl $self --data-binary "This is my paste"</var></dd>
-
-				<dt>Dump from STDIN</dt>
-				<dd><var>ls /tmp | curl $self --data-binary @-</var></dd>
-
-				<dt>Be efficient</dt>
-				<dd><var>curl $self --data-binary "This is my paste" | xargs xdg-open</var></dd>
-				<dd><var>curl $self --data-binary "This is my paste" | xclip</var></dd>
-
-				<dt>From within vim</dt>
-				<dd><var>:w !curl $self --data-binary @-</var></dd>
-			</dl>
-		</div>
+		$second_col
 		<div style="clear: both"></div>
 	</div>
 	<form action="" method="post">
 		<textarea id="dumper" cols="20" rows="10" name="body"></textarea>
 		<p><input type="submit" name="" value="Dump" /></p>
 	</form>
-	<h2>Further hacks</h2>
+	<h2>Help/hacks</h2>
+	<dl>
+		<dt>Dump from CLI</dt>
+		<dd><var>curl $self --data-binary @&lt;filename&gt;</var></dd>
+		<dd><var>curl $self --data-binary "This is my paste"</var></dd>
+
+		<dt>Dump from STDIN</dt>
+		<dd><var>ls /tmp | curl $self --data-binary @-</var></dd>
+
+		<dt>Be efficient</dt>
+		<dd><var>curl $self --data-binary "This is my paste" | xargs xdg-open</var></dd>
+		<dd><var>curl $self --data-binary "This is my paste" | xclip</var></dd>
+
+		<dt>From within vim</dt>
+		<dd><var>:w !curl $self --data-binary @-</var></dd>
+	</dl>
 	<h3>vimconfig to send buffer to paste</h3>
 	<pre><code>cnoremap tad call Tad()<CR>
 function! Tad(...)
@@ -205,4 +232,4 @@ if($req = check_prereq()) {
 }
 
 handle_post();
-render_index();
+render_index(get_search_results());
