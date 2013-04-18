@@ -12,7 +12,7 @@ error_reporting(E_ALL|E_STRICT);
 
 function permalink($id = null) {
 	$protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
-	$uri = $protocol.$_SERVER['HTTP_HOST'].rtrim($_SERVER['REQUEST_URI'], '/');
+	$uri = $protocol.$_SERVER['HTTP_HOST'].rtrim($_SERVER['PHP_SELF'], '/');
 	$uri = preg_replace('~/index.php$~', null, $uri);
 	return "$uri/$id";
 }
@@ -102,11 +102,7 @@ function render_index() {
 	} else {
 		$last = "<h2>Recently dumped</h2><ul>";
 		foreach($pastes as $file => $time) {
-			$last .= sprintf(
-				'<li><a href="./%1$s">%1$s</a> %2$s</li>',
-				$file,
-				time_ago($time)
-			);
+			$last .= "<li><a href='".permalink($file)."'>$file</a> ".time_ago($time)."</li>";
 		}
 		$last .= "</ul>";
 	}
