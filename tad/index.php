@@ -70,7 +70,7 @@ function handle_post() {
 
 function get_search_results() {
 	if(isset($_GET['search']) && $s = $_GET['search']) {
-		exec("grep -c ".escapeshellarg($s)." ".PASTE_FOLDER."/* | grep -v index.php | egrep -v ':0$' | sort -nr -k2 -t:", $hits, $exit_code);
+		exec("grep -ci ".escapeshellarg($s)." ".PASTE_FOLDER."/* | grep -v index.php | egrep -v ':0$' | sort -nr -k2 -t:", $hits, $exit_code);
 		// search all files but index.php in PASTE_FOLDER
 		// exclude files not matching
 		// sort by most hits descending
