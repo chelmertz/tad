@@ -76,7 +76,7 @@ function get_search_results() {
 		// sort by most hits descending
 		$result = array();
 		foreach($hits as $hit) {
-			preg_match('~/(?P<hash>[a-z0-9]+):(?P<count>\d+)~', $hit, $parts);
+			preg_match('~/(?P<hash>[a-z0-9]+):(?P<count>\d+)$~', $hit, $parts);
 			$result[] = "<li><a href='".permalink($parts['hash'])."'>".$parts['hash']."</a> (".$parts['count']." hits)</li>";
 		}
 		if(!$result) {
