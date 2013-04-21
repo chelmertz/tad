@@ -2,4 +2,48 @@ tad: TAKING A DUMP
 
 A pastebin in one php file, period
 
-Auth? Mod your webserver's config
+
+GETTING STARTED
+  Put the folder 'tad' in your web root on a non-public facing server.
+  Visit "tad/" via a browser.
+
+
+FEATURES
+  API endpoint:
+    curl localhost/tad/ -d "asdf" # save 'asdf' as a new paste, the newly created
+    paste is returned as response:
+    http://localhost/tad/912ec80
+  Search:
+    localhost/tad/?search=Nightcall
+    performs a case insensitive, 'weighted' search through all snippets
+  GUI:
+    Dump text in the single page
+  Plain text:
+    wget localhost/tad/325jh34
+    gets the file without highlighting, you don't have to remove highlightning etc
+  PHP API:
+    require 'tad/index.php';
+    $paste_id = \tad\create("Silver magic ships you carry");
+    echo "Just created this:\n".\tad\read($paste_id);
+
+
+NOPE
+  Auth:
+    Mod your webserver's config
+  Flood detection:
+    Really, you should not use this project as a publicly facing service, use it
+    for yourself or your team, behind locked doors
+  
+
+DEPENDENCIES
+  UNIX tools: sort, grep, egrep, head, ls (for searching and listing pastes)
+  PHP 5.3 (uses namespaces)
+
+
+QUESTIONS
+  Read or post issues at https://github.com/chelmertz/tad
+  Email helmertz@mgail.com
+
+
+LICENSE
+  CC BY-SA 3.0: https://creativecommons.org/licenses/by-sa/3.0/deed.en_GB
