@@ -8,6 +8,7 @@ namespace tad;
 
 define(__NAMESPACE__.'\PASTE_FOLDER', __DIR__);
 define(__NAMESPACE__.'\LIST_AMOUNT', 20);
+define(__NAMESPACE__.'\DATE_FORMAT',  'Y-m-d H:i:s');
 error_reporting(E_ALL|E_STRICT);
 
 // helpers
@@ -130,7 +131,7 @@ function render_index($search_result = array()) {
 	} else {
 		$last = "<h2>Recently dumped</h2><ul>";
 		foreach($pastes as $file => $time) {
-			$last .= "<li><a href='".permalink($file)."'>$file</a> ".time_ago($time)."</li>";
+			$last .= "<li><a href='".permalink($file)."'>$file</a> <time title='".date(DATE_FORMAT, $time)."' datetime='".date(DATE_FORMAT, $time)."'>".time_ago($time)."</time></li>";
 		}
 		$last .= "</ul>";
 	}
@@ -177,6 +178,11 @@ var {
 	line-height: 1.5;
 	margin: 0.3em;
 	padding: 0.2em;
+}
+
+time {
+	border-bottom: 1px dotted #000;
+	cursor: help;
 }
 
 dd+dt {
