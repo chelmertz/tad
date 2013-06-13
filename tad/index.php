@@ -38,7 +38,7 @@ function time_ago($timestamp) {
 		$units = floor($time / $unit);
 		return $units.' '.$text.(($units>1)?'s':'').' ago';
 	}
-	return $time_ago.' ago';
+	return $time.' seconds ago';
 }
 
 function check_prereq() {
