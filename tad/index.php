@@ -185,6 +185,10 @@ time {
 	cursor: help;
 }
 
+time:hover {
+	background: pink;
+}
+
 dd+dt {
 	margin-top: 2em;
 }
