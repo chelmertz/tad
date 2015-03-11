@@ -170,14 +170,18 @@ body {
 	width: 40%;
 }
 
-var {
-	background: #111;
-	color: grey;
+code {
 	font-family: monospace;
 	font-style: normal;
 	line-height: 1.5;
-	margin: 0.3em;
-	padding: 0.2em;
+}
+
+pre {
+	background: #D77676;
+	color: #000;
+	display: block;
+	font-size: 150%;
+	padding: 1em;
 }
 
 time {
@@ -215,25 +219,25 @@ dd {
 	<h2>Help/hacks</h2>
 	<dl>
 		<dt>Dump from CLI</dt>
-		<dd><var>curl $self --data-binary @&lt;filename&gt;</var></dd>
-		<dd><var>curl $self --data-binary "This is my paste"</var></dd>
+		<dd><pre><code>curl $self --data-binary @&lt;filename&gt;</code></pre></dd>
+		<dd><pre><code>curl $self --data-binary "This is my paste"</code></pre></dd>
 
 		<dt>Dump from STDIN</dt>
-		<dd><var>ls /tmp | curl $self --data-binary @-</var></dd>
+		<dd><pre><code>ls /tmp | curl $self --data-binary @-</code></pre></dd>
 
 		<dt>Be efficient</dt>
-		<dd><var>curl $self --data-binary "This is my paste" | xargs xdg-open</var></dd>
-		<dd><var>curl $self --data-binary "This is my paste" | xclip</var></dd>
+		<dd><pre><code>curl $self --data-binary "This is my paste" | xargs xdg-open</code></pre></dd>
+		<dd><pre><code>curl $self --data-binary "This is my paste" | xclip</code></pre></dd>
 
 		<dt>From within vim</dt>
-		<dd><var>:w !curl $self --data-binary @-</var></dd>
+		<dd><pre><code>:w !curl $self --data-binary @-</code></pre></dd>
 	</dl>
 	<h3>vimconfig to send buffer to paste</h3>
-	<pre><code>cnoremap tad call Tad()<CR>
+	<pre><code>cnoremap tad call Tad()&lt;CR&gt;
 function! Tad(...)
         w !curl $self --data-binary @-
 endfunction</code></pre>
-	<p>Call it with <var>:tad</var> from within vim.</p>
+	<p>Call it with <code>:tad</code> from within vim.</p>
 	<div id="footer">
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB"><img alt="Creative Commons Licence" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
 	</div>
