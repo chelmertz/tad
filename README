@@ -6,6 +6,7 @@ A pastebin in one php file, period
 GETTING STARTED
   Put the folder 'tad' in your web root on a non-public facing server.
   Visit "tad/" via a browser.
+  If you're using nginx, feel free to use the contrib/tad.conf file.
 
 
 FEATURES
@@ -33,7 +34,7 @@ NOPE
   Flood detection:
     Really, you should not use this project as a publicly facing service, use it
     for yourself or your team, behind locked doors
-  
+
 
 DEPENDENCIES
   UNIX tools: sort, grep, egrep, head, ls (for searching and listing pastes)
