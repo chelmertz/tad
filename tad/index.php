@@ -85,7 +85,7 @@ function search($query = null) {
 }
 
 function create($body) {
-	$id = substr(md5($body), 0, 7);
+	$id = hash("sha256", $body);
 	$filename = PASTE_FOLDER.'/'.$id;
 	if(!file_exists($filename) && !file_put_contents($filename, $body)) {
 		return false;
@@ -168,6 +168,10 @@ body {
 .col {
 	float: left;
 	width: 40%;
+}
+
+.col li a {
+	word-wrap: break-word;
 }
 
 code {

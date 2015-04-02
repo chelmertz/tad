@@ -12,14 +12,14 @@ FEATURES
   API endpoint:
     curl localhost/tad/ -d "asdf" # save 'asdf' as a new paste, the newly created
     paste is returned as response:
-    http://localhost/tad/912ec80
+    http://localhost/tad/f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b
   Search:
     localhost/tad/?search=Nightcall
     performs a case insensitive, 'weighted' search through all snippets
   GUI:
     Dump text in the single page
   Plain text:
-    wget localhost/tad/325jh34
+    wget localhost/tad/f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b
     gets the file without highlighting, you don't have to remove highlightning etc
   PHP API:
     require 'tad/index.php';
