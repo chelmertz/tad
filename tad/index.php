@@ -136,17 +136,17 @@ function render_index($search_result = array()) {
 		$last .= "</ul>";
 	}
 	$second_col = "<div class='col'>
-		<form action='' method='get'>
+		<form method='get'>
 			<label>Search: <input name='search' /></label>
 			<input type='submit' name='' value='Submit' />
 		</form>";
 	if($search_result) {
 		$second_col .= $search_result;
 	}
-	$second_col ."</div>";
+	$second_col .= "</div>";
 	$self = permalink();
 	echo <<<POLICE
-<!doctype>
+<!doctype html>
 <html>
 <head>
 <style type="text/css">
@@ -206,6 +206,7 @@ dd {
 }
 
 </style>
+<title>tad - pastebin</title>
 </head>
 <body>
 	<h1>Taking a dump</h1>
@@ -216,7 +217,7 @@ dd {
 		$second_col
 		<div style="clear: both"></div>
 	</div>
-	<form action="" method="post">
+	<form method="post">
 		<textarea id="dumper" cols="20" rows="10" name="body"></textarea>
 		<p><input type="submit" name="" value="Dump" /></p>
 	</form>
@@ -243,7 +244,8 @@ function! Tad(...)
 endfunction</code></pre>
 	<p>Call it with <code>:tad</code> from within vim.</p>
 	<div id="footer">
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB"><img alt="Creative Commons Licence" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
+		<p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB"><img alt="Creative Commons Licence" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.</p>
+		<p>Source code available on github: <a href="https://github.com/chelmertz/tad">chelmertz/tad</a></p>
 	</div>
 </body>
 </html>
