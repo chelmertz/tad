@@ -205,6 +205,11 @@ dd {
 	margin-left: 0;
 }
 
+#dump {
+	min-height: 4em;
+	width: 100%;
+}
+
 </style>
 <title>tad - pastebin</title>
 </head>
@@ -219,7 +224,7 @@ dd {
 	</div>
 	<form method="post">
 		<textarea id="dumper" cols="20" rows="10" name="body"></textarea>
-		<p><input type="submit" name="" value="Dump" /></p>
+		<p><input type="submit" id="dump" name="" value="Dump" /></p>
 	</form>
 	<h2>Help/hacks</h2>
 	<dl>
